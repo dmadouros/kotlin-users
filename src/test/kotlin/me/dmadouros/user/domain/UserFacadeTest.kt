@@ -2,6 +2,7 @@ package me.dmadouros.user.domain
 
 import assertk.assertThat
 import assertk.assertions.isEqualTo
+import io.mockk.coEvery
 import io.mockk.coJustRun
 import io.mockk.coVerify
 import io.mockk.mockk
@@ -14,7 +15,7 @@ class UserFacadeTest {
     private val subject = UserFacade(userRepository)
 
     @Test
-    fun `add user`() {
+    fun testAddUser() {
         val userId = UUID.randomUUID()
 
         coJustRun { userRepository.addUser(any()) }
@@ -26,4 +27,20 @@ class UserFacadeTest {
 
         coVerify { userRepository.addUser(User(userId, "Bilbo", "Baggins")) }
     }
+
+    @Test
+    fun testListUsers() {
+        val userId = UUID.randomUUID()
+
+        val user = User(userId, "Bilbo", "Baggins")
+
+        coEvery { userRepository.listUsers() } returns listOf(user)
+
+        val actual = runBlocking { subject.listUsers() }
+
+        assertThat(actual).isEqualTo(listOf(user))
+
+        coVerify { userRepository.listUsers() }
+    }
+
 }

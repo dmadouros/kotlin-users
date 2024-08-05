@@ -13,4 +13,8 @@ class UserFacade(private val userRepository: UserRepository) {
 
         return user
     }
+
+    suspend fun listUsers(): List<User> {
+        return userRepository.listUsers()
+    }
 }

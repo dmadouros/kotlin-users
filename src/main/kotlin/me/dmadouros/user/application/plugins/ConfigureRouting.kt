@@ -29,5 +29,11 @@ fun Application.configureRouting(userFacade: UserFacade) {
 
             call.respond(HttpStatusCode.Created, user)
         }
+
+        get("/api/users") {
+            val users = userFacade.listUsers()
+
+            call.respond(HttpStatusCode.OK, users)
+        }
     }
 }

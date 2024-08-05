@@ -41,7 +41,6 @@ class ApplicationTest {
         testApplication {
             val client =
                 createClient {
-                    println(this::class)
                     install(ContentNegotiation) {
                         jackson()
                     }
@@ -65,4 +64,33 @@ class ApplicationTest {
             }
         }
     }
+
+    @Test
+    fun testListUsers() {
+        testApplication {
+            val client =
+                createClient {
+                    install(ContentNegotiation) {
+                        jackson()
+                    }
+                }
+
+            val userFacade: UserFacade = mockk()
+            application {
+                configureSerialization()
+                configureRouting(userFacade)
+            }
+
+            val user = User(UUID.randomUUID(), "Bilbo", "Baggins")
+            coEvery { userFacade.listUsers() } returns listOf(user)
+
+            client.get("/api/users") {
+                contentType(ContentType.Application.Json)
+            }.apply {
+                assertThat(status).isEqualTo(HttpStatusCode.OK)
+                assertThat(body<List<User>>()).isEqualTo(listOf(user))
+            }
+        }
+    }
+
 }
