@@ -1,12 +1,14 @@
 val kotlinVersion: String by project
 val postgresVersion: String by project
 val exposedVersion: String by project
+val testcontainersVersion: String by project
 
 plugins {
     kotlin("jvm") version "2.0.0"
     id("io.ktor.plugin") version "2.3.12"
     id("org.jetbrains.kotlin.plugin.serialization") version "2.0.0"
     id("org.liquibase.gradle") version "2.2.0"
+    jacoco
 }
 
 group = "me.dmadouros"
@@ -24,6 +26,7 @@ repositories {
 }
 
 dependencies {
+    implementation("io.ktor:ktor-client-content-negotiation-jvm")
     implementation("io.ktor:ktor-server-content-negotiation-jvm")
     implementation("io.ktor:ktor-server-core-jvm")
     implementation("io.ktor:ktor-serialization-jackson-jvm")
@@ -65,10 +68,23 @@ dependencies {
     testImplementation("io.ktor:ktor-server-test-host-jvm")
     testImplementation("org.junit.jupiter:junit-jupiter:5.8.0")
     testImplementation("com.willowtreeapps.assertk:assertk-jvm:0.28.0")
+    testImplementation("io.mockk:mockk-jvm:1.13.8")
+    testImplementation(platform("org.testcontainers:testcontainers-bom:$testcontainersVersion"))
+    testImplementation("org.testcontainers:junit-jupiter")
+    testImplementation("org.testcontainers:postgresql")
+    testImplementation("org.testcontainers:testcontainers")
 }
 
 tasks.test {
     useJUnitPlatform()
+    finalizedBy(tasks.jacocoTestReport)
+}
+
+
+tasks.jacocoTestReport {
+    dependsOn(tasks.test)
+    classDirectories.setFrom(
+        files(classDirectories.files.map { fileTree(it) { exclude("**/proto/**/*.*") } }))
 }
 
 liquibase {

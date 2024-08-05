@@ -6,6 +6,9 @@ import io.ktor.server.netty.Netty
 import me.dmadouros.user.application.plugins.configureDatabase
 import me.dmadouros.user.application.plugins.configureRouting
 import me.dmadouros.user.application.plugins.configureSerialization
+import me.dmadouros.user.domain.User
+import me.dmadouros.user.domain.UserFacade
+import me.dmadouros.user.domain.UserRepository
 
 fun main() {
     embeddedServer(Netty, port = 8080, host = "0.0.0.0", module = Application::module)
@@ -17,5 +20,5 @@ fun Application.module() {
 
     configureDatabase(jdbcUrl)
     configureSerialization()
-    configureRouting()
+    configureRouting(UserFacade(UserRepository()))
 }

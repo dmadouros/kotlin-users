@@ -3,7 +3,12 @@
 ## Task List
 
 - [x] use log4j
-- [ ] setup eventstoredb in docker
 - [x] setup liquibase
+- [x] add ability to create user
+- [ ] add ability to list users
+- [ ] setup eventstoredb in docker
 - [ ] copy eventstoredb code
+---
+- [ ] list users using htmx
+- [ ] list users using svelte
 
