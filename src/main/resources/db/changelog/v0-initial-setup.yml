@@ -1,0 +1,36 @@
+databaseChangeLog:
+
+  - changeSet:
+      id: create_users_table
+      author: David Madouros
+      changes:
+        - createTable:
+            tableName: users
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: users_pkey
+                  name: id
+                  type: uuid
+              - column:
+                  constraints:
+                    nullable: false
+                  name: first_name
+                  type: varchar
+              - column:
+                  constraints:
+                    nullable: false
+                  name: last_name
+                  type: varchar
+              - column:
+                  constraints:
+                    nullable: false
+                  name: created_at
+                  type: timestamptz
+              - column:
+                  constraints:
+                    nullable: false
+                  name: updated_at
+                  type: timestamptz
