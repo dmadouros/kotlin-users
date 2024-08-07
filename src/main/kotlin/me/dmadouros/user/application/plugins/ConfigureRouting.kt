@@ -3,6 +3,7 @@ package me.dmadouros.user.application.plugins
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.Application
 import io.ktor.server.application.call
+import io.ktor.server.http.content.staticFiles
 import io.ktor.server.request.receive
 import io.ktor.server.response.respond
 import io.ktor.server.response.respondText
@@ -12,14 +13,13 @@ import io.ktor.server.routing.routing
 import me.dmadouros.user.domain.AddUserCommand
 import me.dmadouros.user.domain.AddUserDto
 import me.dmadouros.user.domain.UserFacade
-import me.dmadouros.user.domain.UserRepository
+import java.io.File
 import java.util.UUID
 
 fun Application.configureRouting(userFacade: UserFacade) {
     routing {
-        get("/") {
-            call.respondText("Hello World!")
-        }
+        staticFiles("/", File("ui/admin-console/build"))
+        staticFiles("/assets", File("ui/admin-console/build/assets"))
 
         post("/api/users") {
             val addUserDto: AddUserDto = call.receive<AddUserDto>()
