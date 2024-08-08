@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Users</title>
+    <script src="/assets/js/htmx.min.js"></script>
+    <style>
+        th {
+            color: white;
+            background-color: black;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+<h1>Users</h1>
+<table border="1" cellpadding="10" cellspacing="1">
+    <thead>
+    <tr>
+        <th>User ID</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+    </tr>
+    </thead>
+    <tbody hx-get="/users" hx-trigger="load" hx-swap="outerHTML"></tbody>
+</table>
+</body>
+</html>

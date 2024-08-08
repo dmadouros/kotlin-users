@@ -64,6 +64,9 @@ dependencies {
     // Eventstore DB
     implementation("com.eventstore:db-client-java:4.1.1")
 
+    // HTML
+    implementation("io.ktor:ktor-server-freemarker")
+
     // Testing
     testImplementation("io.ktor:ktor-server-test-host-jvm")
     testImplementation("org.junit.jupiter:junit-jupiter:5.8.0")
